@@ -1,6 +1,15 @@
 from rest_framework import serializers
 from users.models import UserModel
-from .models import PostModel, PostImageModel, PostCommentModel
+from .models import *
+
+
+class PostRatingSerializer(serializers.Serializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
+    
+    
+    def create(self, validated_data):
+        return PostRatingModel.objects.create(**validated_data)
 
 
 class PostImageSerializer(serializers.Serializer):
@@ -20,6 +29,7 @@ class PostImageSerializer(serializers.Serializer):
         instance.save()
         
         return instance
+
 
 
 class PostCommentSerializer(serializers.Serializer):
@@ -49,6 +59,8 @@ class PostSerializer(serializers.Serializer):
     date_create = serializers.DateTimeField(read_only=True)
     date_update = serializers.DateTimeField(read_only=True)
     is_published = serializers.BooleanField()
+    rating = serializers.IntegerField(read_only=True)
+    num_comments = serializers.IntegerField(read_only=True)
     
     
     def create(self, validated_data):

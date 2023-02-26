@@ -16,6 +16,8 @@ class PostModel(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
+    rating = models.BigIntegerField(default=0)
+    num_comments = models.BigIntegerField(default=0)
     
     
     class Meta:
@@ -25,7 +27,16 @@ class PostModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PostRatingModel(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, editable=False)
+    post = models.ForeignKey(PostModel, on_delete=models.CASCADE, editable=False)
     
+    
+    def __str__(self):
+        return self.author.username
+
 
 class PostImageModel(models.Model):
     post = models.ForeignKey(PostModel, on_delete=models.CASCADE, editable=False)
