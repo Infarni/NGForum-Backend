@@ -12,7 +12,7 @@ from .permissions import IsOwnUserOrReadOnly, IsNotAuthenticated
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsOwnUserOrReadOnly,)
+    permission_classes = (IsOwnUserOrReadOnly, )
 
 
     @action(detail=True, methods=['get'])

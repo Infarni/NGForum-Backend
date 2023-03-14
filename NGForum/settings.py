@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^wuzd7d7nyl8_ic#iov2t962etu1nbfh*i$*vs(q3j=-w)ys75
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'archdrdr.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'corsheaders',    
     'users.apps.UsersConfig',
     'posts.apps.PostsConfig'
@@ -124,7 +125,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = '/home/archdrdr/static'
+
+STATICFILES_DIRS = [BASE_DIR / 'static/']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
@@ -151,4 +154,5 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
+    'http://localhost:3000'
 ]
