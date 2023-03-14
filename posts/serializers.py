@@ -15,7 +15,7 @@ class PostRatingSerializer(serializers.Serializer):
 class PostImageSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     post = serializers.PrimaryKeyRelatedField(read_only=True)
-    image = serializers.ImageField()
+    image = serializers.ImageField(required=True)
     
     
     def create(self, validated_data):
