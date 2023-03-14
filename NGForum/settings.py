@@ -125,7 +125,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = '/home/archdrdr/static'
+STATIC_ROOT = '/var/www/archdrdr.pythonanywhere.com/static'
 
 STATICFILES_DIRS = [BASE_DIR / 'static/']
 
