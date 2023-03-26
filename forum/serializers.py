@@ -97,18 +97,17 @@ class TagSerializer(serializers.Serializer):
 class QuestionAssessmentSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True),
     owner = UserSerializer(read_only=True)
-    question = serializers.PrimaryKeyRelatedField(
-        queryset=QuestionModel.objects.all(),
-        required=True
-    )
+    question = serializers.PrimaryKeyRelatedField(read_only=True)
     value = serializers.BooleanField()
     
     
     def create(self, validated_data):
         user = self.context['user']
+        question = self.context['questions']
         
         instance = QuestionAssessmentModel.objects.create(
             owner=user,
+            question=question,
             **validated_data
         )
         

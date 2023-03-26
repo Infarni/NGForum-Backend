@@ -69,6 +69,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     )
     @extend_schema(
         methods=['post'],
+        request=AnswerAssessmentSerializer,
         responses={
             200: None,
             201: None
@@ -86,46 +87,37 @@ class QuestionViewSet(viewsets.ModelViewSet):
         question = self.get_object()
         owner = request.user
         
-        try:    
-            assessment = QuestionAssessmentModel.objects.filter(
+        try:
+            assessment = QuestionAssessmentModel.objects.get(
                 question=question,
                 owner=owner
             )
-        except:
+        except ObjectDoesNotExist:
             assessment = None
         if request.method == 'DELETE':
             if assessment:
                 assessment.delete()
                 
-                return Response(
-                    {'detail': 'Success'},
-                    status=status.HTTP_204_NO_CONTENT
-                )
+                return Response(status=status.HTTP_204_NO_CONTENT)
             
-            return Response(
-                {'detail': 'Assessment doe`s not exist.'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
         if assessment:
-            return Response({'detail': 'Assessment exist.'})
+            return Response()
         
         if request.method == 'POST':
-            instance = QuestionAssessmentModel.objects.create(
-                question=question,
-                owner=owner,
-                value=True
+            serializer = QuestionAssessmentSerializer(
+                data=request.data,
+                context={'question': question, 'user': owner}
             )
+            serializer.is_valid(raise_exception=True)
             
-            return Response(
-                {'detail': 'Success.'},
-                status=status.HTTP_201_CREATED
-            )
+            serializer.save()
+            
+            return Response(status=status.HTTP_201_CREATED)
         
-        return Response(
-            {'detail': 'Assessment doe`s not exist.'},
-            status=status.HTTP_404_NOT_FOUND
-        )
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
