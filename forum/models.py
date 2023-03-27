@@ -74,14 +74,12 @@ class ImageModel(models.Model):
 class QuestionAssessmentModel(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='question_assessments',
         on_delete=models.CASCADE,
         editable=False,
         blank=False
     )
     question = models.ForeignKey(
         QuestionModel,
-        related_name='question_assessments',
         on_delete=models.CASCADE,
         editable=False,
         blank=False
@@ -123,14 +121,12 @@ class AnswerModel(models.Model):
 class AnswerAssessmentModel(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='answer_assessments',
         on_delete=models.CASCADE,
         editable=False,
         blank=False
     )
     answer = models.ForeignKey(
         AnswerModel,
-        related_name='answer_assessments',
         on_delete=models.CASCADE,
         editable=False,
         blank=False
