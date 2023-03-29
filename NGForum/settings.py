@@ -18,7 +18,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5500',
+    'http://localhost:3000'
+]
 
 
 AUTH_USER_MODEL = 'accounts.UserModel'
@@ -33,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
+    'cors_headers',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
