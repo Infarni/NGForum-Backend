@@ -21,7 +21,7 @@ from forum.views import (
 )
 
 
-router = DefaultRouter()
+router = DefaultRouter(trailing_slash=False)
 router.register(r'accounts', AccountViewSet, basename='accounts')
 router.register(r'tags', TagViewSet, basename='tags')
 router.register(r'questions', QuestionViewSet, basename='questions')
