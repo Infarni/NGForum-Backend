@@ -10,18 +10,16 @@ class UserSerializer(serializers.Serializer):
     password = serializers.CharField(required=True, write_only=True)
     discription = serializers.CharField(max_length=1024, required=False)
     avatar = serializers.ImageField(required=False)
-    
 
     def create(self, validated_data):
-            password = validated_data.pop('password')
+        password = validated_data.pop('password')
 
-            instance = UserModel.objects.create(**validated_data)
-            instance.set_password(password)
+        instance = UserModel.objects.create(**validated_data)
+        instance.set_password(password)
 
-            instance.save()
+        instance.save()
             
-            return instance
-
+        return instance
 
     def update(self, instance, validated_data):
         instance.set_password(validated_data.get('password', instance.password))
