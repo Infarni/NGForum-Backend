@@ -129,3 +129,5 @@ media/users/
 
 # Pyre type checker
 .pyre/
+
+migrations
