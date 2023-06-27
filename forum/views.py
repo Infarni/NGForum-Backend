@@ -28,9 +28,13 @@ from .permissions import IsOwnUserOrReadOnly
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = TagModel.objects.all()
     serializer_class = TagSerializer
     parser_classes = (JSONParser,)
+
+    def get_queryset(self):
+        name = self.request.query_params.get('name', '')
+        queryset = TagModel.objects.filter(name__icontains=name)
+        return queryset
 
     def get_permissions(self):
         if self.action == 'create':
@@ -40,9 +44,14 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = QuestionModel.objects.all()
     serializer_class = QuestionSerializer
     parser_classes = [JSONParser, MultiPartParser]
+
+    def get_queryset(self):
+        owner = self.request.query_params.get('owner', '')
+        tag = self.request.query_params.get('tag', '')
+        queryset = QuestionModel.objects.filter(owner__icontains=owner, tag__icontains=tag)
+        return queryset
 
     def get_permissions(self):
         if self.action == 'create':
@@ -119,11 +128,14 @@ class QuestionViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-
 class AnswerViewSet(viewsets.ModelViewSet):
-    queryset = AnswerModel.objects.all()
     parser_classes = [JSONParser]
-    
+
+    def get_queryset(self):
+        owner = self.request.query_params.get('owner', '')
+        question = self.request.query_params.get('question', '')
+        queryset = AnswerModel.objects.filter(owner__icontains=owner, question__icontains=question)
+        return queryset
     def get_permissions(self):
         if self.action == 'create':
             return [IsAuthenticated()]

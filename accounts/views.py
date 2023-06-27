@@ -10,16 +10,18 @@ from .permissions import IsOwnUserOrReadOnly, IsNotAuthenticated
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    queryset = UserModel.objects.order_by('id')
     serializer_class = UserSerializer
-    
+
+    def get_queryset(self):
+        username = self.request.query_params.get('username', '')
+        queryset = UserModel.objects.filter(username__icontains=username)
+        return queryset
     
     def get_permissions(self):
         if self.action == 'create':
             return [IsNotAuthenticated()]
         
         return [IsOwnUserOrReadOnly()]
-    
     
     def get_parsers(self):
         return [JSONParser(), MultiPartParser()]
