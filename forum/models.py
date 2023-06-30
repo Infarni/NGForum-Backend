@@ -88,7 +88,7 @@ class QuestionAssessmentModel(models.Model):
 
     objects = QuestionAssessmentManager()
 
-    def delete(self):
+    def delete(self, using=None, keep_parents=False):
         if not self.value:
             self.question.rating += 1
 
@@ -96,7 +96,7 @@ class QuestionAssessmentModel(models.Model):
 
         self.question.save()
 
-        super().delete()
+        super().delete(using, keep_parents)
 
 
 class AnswerModel(models.Model):
@@ -135,7 +135,7 @@ class AnswerAssessmentModel(models.Model):
 
     objects = AnswerAssessmentManager()
 
-    def delete(self):
+    def delete(self, using=None, keep_parents=False):
         if not self.value:
             self.answer.rating += 1
 
@@ -143,4 +143,4 @@ class AnswerAssessmentModel(models.Model):
 
         self.answer.save()
 
-        super().delete()
+        super().delete(using, keep_parents)

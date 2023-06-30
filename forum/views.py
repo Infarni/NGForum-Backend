@@ -8,6 +8,8 @@ from rest_framework.decorators import action
 
 from drf_spectacular.utils import extend_schema
 
+from accounts.models import UserModel
+
 from .models import (
     TagModel,
     QuestionModel,
@@ -48,10 +50,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     parser_classes = [JSONParser, MultiPartParser]
 
     def get_queryset(self):
-        owner = self.request.query_params.get('owner', '')
-        tag = self.request.query_params.get('tag', '')
-        queryset = QuestionModel.objects.filter(owner__icontains=owner, tag__icontains=tag)
-        return queryset
+        return QuestionModel.objects.all()
 
     def get_permissions(self):
         if self.action == 'create':
@@ -132,10 +131,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     parser_classes = [JSONParser]
 
     def get_queryset(self):
-        owner = self.request.query_params.get('owner', '')
-        question = self.request.query_params.get('question', '')
-        queryset = AnswerModel.objects.filter(owner__icontains=owner, question__icontains=question)
-        return queryset
+        return AnswerModel.objects.all()
     def get_permissions(self):
         if self.action == 'create':
             return [IsAuthenticated()]
